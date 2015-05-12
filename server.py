@@ -8,28 +8,21 @@ class IphoneChat(Protocol):
  
     def connectionLost(self, reason):
         self.factory.clients.remove(self)
+    def GenerateResults(self,a):
+        arrs=a.replace("\n","").split(":")
+        line=arrs[0]+" "+arrs[1]+" "+arrs[2]
+        # print line
+        st=line+"\t"+line+"\t"+line
+        # st=st+"+"+line
+        # print st
+        return st
     def dataReceived(self, data):
-        a = data.split(':')
-        print a
-
+        # a = data.split(':')
+        print data
+        send_msg=self.GenerateResults(data)
+        print send_msg
         for c in self.factory.clients:
-            c.message("!!!!!!!!!!!!!!!!!")
-
-        if len(a) > 1:
-            command = a[0]
-            content = a[1]
-            msg = ""
-            if command == "iam":
-                self.name = content
-                msg = self.name + " has joined"
- 
-            elif command == "msg":
-                msg = self.name + ": " + content
-                print msg
-            for c in self.factory.clients:
-                c.message(msg)
-
-
+            c.message(send_msg)
     def message(self, message):
         self.transport.write(message + '\n')
 factory = Factory()
