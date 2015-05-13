@@ -14,7 +14,7 @@
 		<string>https://github.com/lzj010236/airfare.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>airfare 3/airfare.xcodeproj</string>
+	<string>airfare/airfare.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>89E18E0255507E77F23C62EB8637A128A9CDDE70</key>

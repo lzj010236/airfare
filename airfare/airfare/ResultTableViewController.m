@@ -36,10 +36,13 @@
 }
 
 - (void)sentInfo {
+
+    [self initNetworkCommunication];
+    ResultItem* result=(ResultItem*)self.resultItems[0];
+    NSString *combined = [NSString stringWithFormat:@"%@%@%@%@%@", result.from, @":", result.to, @":", result.fligtDate];
+//    NSLog(@"combined %@",combined);
     
-//    NSString *combined = [NSString stringWithFormat:@"%@%@%@%@", resultItem.from, @":", resultItem.to,@":", ResultItem];
-//    
-    NSString *response  = [NSString stringWithFormat:@"iam:%@", self.inputNameField.text];
+    NSString *response  = [NSString stringWithFormat:@"iam:%@", combined];
     NSData *data = [[NSData alloc] initWithData:[response dataUsingEncoding:NSASCIIStringEncoding]];
     [self.outputStream write:[data bytes] maxLength:[data length]];
     
@@ -75,6 +78,14 @@
                     if (len > 0) {
                         
                         NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
+                        
+                        NSArray *split = [output componentsSeparatedByString:@"\t"];
+                        ResultItem *received = [[ResultItem alloc] init];
+                        received.from = split[0];
+                        received.to=split[1];
+                        received.fligtDate=split[2];
+                        [self.resultItems addObject:received];
+                        [self.tableView reloadData];
                         
                         if (nil != output) {
                             NSLog(@"server said: %@", output);
@@ -126,7 +137,7 @@
     [super viewDidLoad];
 //    self.resultItems = [[NSMutableArray alloc] init];
     [self loadInitialData];
-
+    [self sentInfo];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     

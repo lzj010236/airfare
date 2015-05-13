@@ -18,7 +18,7 @@ class IphoneChat(Protocol):
         return st
     def dataReceived(self, data):
         # a = data.split(':')
-        print data
+#        print data
         send_msg=self.GenerateResults(data)
         print send_msg
         for c in self.factory.clients:
