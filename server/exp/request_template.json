@@ -1,0 +1,14 @@
+{
+  "request": {
+    "passengers": {
+      "adultCount": 1
+    },
+    "slice": [
+      {
+        "origin": "ORG",
+        "destination": "DST",
+        "date": "TIME"
+      }
+    ]
+  }
+}

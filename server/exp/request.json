@@ -1,0 +1,14 @@
+{
+  "request": {
+    "passengers": {
+      "adultCount": 1
+    },
+    "slice": [
+      {
+        "origin": "BOS",
+        "destination": "LAX",
+        "date": "2015-07-11"
+      }
+    ]
+  }
+}
