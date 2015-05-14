@@ -7,7 +7,7 @@
       {
         "origin": "ORG",
         "destination": "DST",
-        "date": "TIME"
+        "date": "DATETIME"
       }
     ]
   }

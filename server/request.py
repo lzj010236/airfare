@@ -5,7 +5,7 @@ import json
 def GetPriceJson(filename,origin,destination,time,key):
     def GetData(filename,origin,destination,time):
         f=open(filename)
-        request_str=f.read().replace("ORG",origin).replace("DST",destination).replace("TIME",time)
+        request_str=f.read().replace("ORG",origin).replace("DST",destination).replace("\"DATETIME\"","\""+time+"\"")
         return request_str
 
     # url = 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyBdVobWYnDYRKuyUs2yVXnQM0bP97EjUTQ'
@@ -18,8 +18,10 @@ def GetPriceJson(filename,origin,destination,time,key):
     headers = { "Content-Type" : "application/json" }
 
 #    data = GetData(filename,"BOS","LAX","2015-07-11")
-    data = GetData(filename,origin,destination,time)
-
+    data = GetData(filename,origin.strip(),destination.strip(),time.strip())
+    # print data
+    # print time
+    # print destination
 # print data
     req = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(req)
