@@ -17,23 +17,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="From" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3X0-an-nfH">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="PIT" borderStyle="roundedRect" placeholder="From" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3X0-an-nfH">
                                 <rect key="frame" x="16" y="136" width="568" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="To" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="62s-3k-oZi">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="JFK" borderStyle="roundedRect" placeholder="To" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="62s-3k-oZi">
                                 <rect key="frame" x="16" y="205" width="568" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OWQ-P5-6ZM">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="2015-03-15" borderStyle="roundedRect" placeholder="Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OWQ-P5-6ZM">
                                 <rect key="frame" x="16" y="274" width="568" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oAa-SJ-kfG">
-                                <rect key="frame" x="276" y="333" width="49" height="30"/>
+                                <rect key="frame" x="276" y="550" width="49" height="30"/>
                                 <state key="normal" title="Submit">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -41,6 +41,12 @@
                                     <segue destination="AWa-cz-dRQ" kind="show" identifier="submitSegue" id="hWb-Uk-6Vo"/>
                                 </connections>
                             </button>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="VCk-mX-hqt">
+                                <rect key="frame" x="0.0" y="312" width="600" height="162"/>
+                                <date key="date" timeIntervalSinceReferenceDate="453245756.71913803">
+                                    <!--2015-05-13 21:35:56 +0000-->
+                                </date>
+                            </datePicker>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -49,18 +55,21 @@
                             <constraint firstItem="62s-3k-oZi" firstAttribute="leading" secondItem="3X0-an-nfH" secondAttribute="leading" id="9on-bw-VpO"/>
                             <constraint firstItem="3X0-an-nfH" firstAttribute="trailing" secondItem="62s-3k-oZi" secondAttribute="trailing" id="EZS-o8-CrG"/>
                             <constraint firstItem="62s-3k-oZi" firstAttribute="trailing" secondItem="OWQ-P5-6ZM" secondAttribute="trailing" id="KIh-ed-9BK"/>
+                            <constraint firstItem="VCk-mX-hqt" firstAttribute="centerX" secondItem="OWQ-P5-6ZM" secondAttribute="centerX" id="Pjh-He-421"/>
+                            <constraint firstItem="VCk-mX-hqt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cTl-xw-7VW"/>
+                            <constraint firstItem="oAa-SJ-kfG" firstAttribute="centerX" secondItem="OWQ-P5-6ZM" secondAttribute="centerX" id="eyh-Xa-hMw"/>
+                            <constraint firstItem="VCk-mX-hqt" firstAttribute="top" secondItem="OWQ-P5-6ZM" secondAttribute="bottom" constant="8" symbolic="YES" id="fEC-SD-Xg4"/>
                             <constraint firstItem="OWQ-P5-6ZM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="g9H-m6-Gsw"/>
                             <constraint firstItem="62s-3k-oZi" firstAttribute="top" secondItem="3X0-an-nfH" secondAttribute="bottom" constant="39" id="gUG-Ku-7B2"/>
+                            <constraint firstAttribute="bottom" secondItem="oAa-SJ-kfG" secondAttribute="bottom" constant="20" symbolic="YES" id="qgM-3H-jkp"/>
                             <constraint firstItem="3X0-an-nfH" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="suW-4t-cpi"/>
-                            <constraint firstItem="oAa-SJ-kfG" firstAttribute="centerX" secondItem="OWQ-P5-6ZM" secondAttribute="centerX" id="vTV-5j-OOC"/>
-                            <constraint firstItem="oAa-SJ-kfG" firstAttribute="top" secondItem="OWQ-P5-6ZM" secondAttribute="bottom" constant="29" id="wAs-jX-eI4"/>
                             <constraint firstItem="OWQ-P5-6ZM" firstAttribute="top" secondItem="62s-3k-oZi" secondAttribute="bottom" constant="39" id="xOc-zH-6DD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8pq-cH-dmA" userLabel="index"/>
                     <connections>
                         <outlet property="date" destination="OWQ-P5-6ZM" id="H5J-ZX-qKS"/>
-                        <outlet property="from" destination="62s-3k-oZi" id="QEe-J2-qCd"/>
+                        <outlet property="from" destination="3X0-an-nfH" id="3xa-S4-5ST"/>
                         <outlet property="submitButton" destination="oAa-SJ-kfG" id="3op-9h-4sq"/>
                         <outlet property="to" destination="62s-3k-oZi" id="I1n-h1-9Oi"/>
                     </connections>
@@ -73,12 +82,12 @@
         <scene sceneID="WW7-eG-wws">
             <objects>
                 <tableViewController id="AWa-cz-dRQ" customClass="ResultTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="X3D-hn-4mJ">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="149" sectionHeaderHeight="22" sectionFooterHeight="22" id="X3D-hn-4mJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListPrototypeCell" textLabel="Imf-lZ-bv5" detailTextLabel="f3d-Id-Ber" rowHeight="110" style="IBUITableViewCellStyleSubtitle" id="dLw-WY-laz">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListPrototypeCell" textLabel="Imf-lZ-bv5" detailTextLabel="f3d-Id-Ber" rowHeight="149" style="IBUITableViewCellStyleSubtitle" id="dLw-WY-laz">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dLw-WY-laz" id="ucc-rS-aCq">
                                     <autoresizingMask key="autoresizingMask"/>

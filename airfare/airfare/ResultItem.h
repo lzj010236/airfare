@@ -14,5 +14,9 @@
 @property NSString *to;
 @property NSString *fligtDate;
 
+@property NSString *title;
+@property NSString *detail;
+
+
 
 @end

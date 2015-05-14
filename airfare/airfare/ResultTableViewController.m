@@ -40,10 +40,7 @@
     [self initNetworkCommunication];
     ResultItem* result=(ResultItem*)self.resultItems[0];
     NSString *combined = [NSString stringWithFormat:@"%@%@%@%@%@", result.from, @":", result.to, @":", result.fligtDate];
-//    NSLog(@"combined %@",combined);
-    
-    NSString *response  = [NSString stringWithFormat:@"iam:%@", combined];
-    NSData *data = [[NSData alloc] initWithData:[response dataUsingEncoding:NSASCIIStringEncoding]];
+    NSData *data = [[NSData alloc] initWithData:[combined dataUsingEncoding:NSASCIIStringEncoding]];
     [self.outputStream write:[data bytes] maxLength:[data length]];
     
 }
@@ -70,7 +67,7 @@
             
             if (theStream == self.inputStream) {
                 
-                uint8_t buffer[1024];
+                uint8_t buffer[10240];
                 int len;
                 
                 while ([self.inputStream hasBytesAvailable]) {
@@ -79,16 +76,69 @@
                         
                         NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
                         
-                        NSArray *split = [output componentsSeparatedByString:@"\t"];
-                        ResultItem *received = [[ResultItem alloc] init];
-                        received.from = split[0];
-                        received.to=split[1];
-                        received.fligtDate=split[2];
-                        [self.resultItems addObject:received];
+                        NSLog(output);
+                        
+                        
+                        
+                        NSData *data = [output dataUsingEncoding:NSUTF8StringEncoding];
+                        NSError *e = nil;
+                        NSArray *JSONarray = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &e];
+                        for(int i=0;i<[JSONarray count];i++)
+                        {
+                            NSLog(@"%@%d",@"entry no. ",i);
+                            NSString *total=[[JSONarray objectAtIndex:i]objectForKey:@"total"];
+                            NSArray *flights=[[JSONarray objectAtIndex:i]objectForKey:@"flights"];
+                            
+                            ResultItem *received = [[ResultItem alloc] init];
+                            received.title=total;
+                            
+                            for(int j=0;j<[flights count];j++){
+                                NSString *arrival=[[flights objectAtIndex:j]objectForKey:@"arrival"];
+//                                NSLog(@"%@",arrival);
+                                NSString *to=[[flights objectAtIndex:j]objectForKey:@"to"];
+//                                NSLog(@"%@",to);
+                                NSString *from=[[flights objectAtIndex:j]objectForKey:@"fr"];
+//                                NSLog(@"%@",from);
+                                NSString *depature=[[flights objectAtIndex:j]objectForKey:@"depature"];
+//                                NSLog(@"%@",depature);
+                                
+                                NSString *combined=nil;
+                                NSString *line1 = [NSString stringWithFormat:@"%@%@%@", from, @"  ->  ", to];
+                                NSString *line2 = [NSString stringWithFormat:@"%@%@%@",arrival,@"  ->  ",depature];
+                                NSString *line3 = @"-------------";
+                                if(j==0){
+                                    received.detail =[NSString stringWithFormat:@"%@\n%@",line1, line2];
+                                }else{
+                                    combined =[NSString stringWithFormat:@"%@\n%@\n%@",line3, line1, line2];
+                                    received.detail=[NSString stringWithFormat:@"%@\n%@", received.detail, combined];
+                                }
+                                
+                                
+                                //            received.detail=combined;
+                            }
+                            
+                            
+                            [self.resultItems addObject:received];
+                            
+                        }
+                        
+                        
+                        
+//                        NSArray *split_flight = [output componentsSeparatedByString:@"\t"];
+//                        for (NSString* flightEntry in split_flight) {
+//                            NSArray *split_item = [flightEntry componentsSeparatedByString:@" "];
+//                            ResultItem *received = [[ResultItem alloc] init];
+//                            received.from = split_item[0];
+//                            received.to=split_item[1];
+//                            received.fligtDate=split_item[2];
+//                            [self.resultItems addObject:received];
+//                        }
+                        
+                        
                         [self.tableView reloadData];
                         
                         if (nil != output) {
-                            NSLog(@"server said: %@", output);
+//                            NSLog(@"server said: %@", output);
                         }
                         [self.inputStream close];
                     }
@@ -112,37 +162,68 @@
 
 
 - (void)loadInitialData {
-    ResultItem *item1 = [[ResultItem alloc] init];
-    item1.from = @"pitt";
-    item1.to=@"NY";
-    item1.fligtDate=@"5/11/15";
-    [self.resultItems addObject:item1];
     
-    ResultItem *item2 = [[ResultItem alloc] init];
-    item2.from = @"ny";
-    item2.to=@"la";
-    item2.fligtDate=@"5/11/15";
-    [self.resultItems addObject:item2];
-
-    ResultItem *item3 = [[ResultItem alloc] init];
-    item3.from = @"ny";
-    item3.to=@"la";
-    item3.fligtDate=@"5/11/15";
-    [self.resultItems addObject:item3];
+    NSString *jsonString = @"[{\"flights\": [{\"arrival\": \"2015-07-11T09:50-07:00\", \"to\": \"LAX\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T06:28-04:00\"}], \"total\": \"USD193.10\"}, {\"flights\": [{\"arrival\": \"2015-07-11T09:26-07:00\", \"to\": \"LAX\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T06:00-04:00\"}], \"total\": \"USD223.10\"}, {\"flights\": [{\"arrival\": \"2015-07-11T11:40-07:00\", \"to\": \"LAX\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T08:15-04:00\"}], \"total\": \"USD223.10\"}, {\"flights\": [{\"arrival\": \"2015-07-11T11:40-07:00\", \"to\": \"LAX\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T08:15-04:00\"}], \"total\": \"USD231.45\"}, {\"flights\": [{\"arrival\": \"2015-07-11T09:26-07:00\", \"to\": \"LAX\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T06:00-04:00\"}], \"total\": \"USD231.45\"}, {\"flights\": [{\"arrival\": \"2015-07-11T13:36-07:00\", \"to\": \"LAX\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T10:15-04:00\"}], \"total\": \"USD258.10\"}, {\"flights\": [{\"arrival\": \"2015-07-11T08:18-04:00\", \"to\": \"CLT\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T06:00-04:00\"}, {\"arrival\": \"2015-07-11T12:00-07:00\", \"to\": \"LAX\", \"fr\": \"CLT\", \"depature\": \"2015-07-11T09:45-04:00\"}], \"total\": \"USD265.10\"}, {\"flights\": [{\"arrival\": \"2015-07-11T09:04-07:00\", \"to\": \"PHX\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T06:20-04:00\"}, {\"arrival\": \"2015-07-11T13:25-07:00\", \"to\": \"LAX\", \"fr\": \"PHX\", \"depature\": \"2015-07-11T12:00-07:00\"}], \"total\": \"USD266.60\"}, {\"flights\": [{\"arrival\": \"2015-07-11T13:29-04:00\", \"to\": \"DCA\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T12:00-04:00\"}, {\"arrival\": \"2015-07-11T19:49-07:00\", \"to\": \"LAX\", \"fr\": \"DCA\", \"depature\": \"2015-07-11T17:05-04:00\"}], \"total\": \"USD266.60\"}, {\"flights\": [{\"arrival\": \"2015-07-11T07:57-04:00\", \"to\": \"PHL\", \"fr\": \"BOS\", \"depature\": \"2015-07-11T06:30-04:00\"}, {\"arrival\": \"2015-07-11T12:37-07:00\", \"to\": \"LAX\", \"fr\": \"PHL\", \"depature\": \"2015-07-11T09:45-04:00\"}], \"total\": \"USD266.60\"}]";
+    
+    
+    NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *e = nil;
+    NSArray *JSONarray = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &e];
+    for(int i=0;i<[JSONarray count];i++)
+    {
+        NSLog(@"%@%d",@"entry no. ",i);
+        NSString *total=[[JSONarray objectAtIndex:i]objectForKey:@"total"];
+        NSArray *flights=[[JSONarray objectAtIndex:i]objectForKey:@"flights"];
+        NSLog(@"%@",total);
+        NSLog(@"%@",flights);
+        
+        ResultItem *received = [[ResultItem alloc] init];
+        received.title=total;
+        
+        for(int j=0;j<[flights count];j++){
+            NSLog(@"%@%d",@"flight at ",j);
+            NSString *arrival=[[flights objectAtIndex:j]objectForKey:@"arrival"];
+            NSLog(@"%@",arrival);
+            NSString *to=[[flights objectAtIndex:j]objectForKey:@"to"];
+            NSLog(@"%@",to);
+            NSString *from=[[flights objectAtIndex:j]objectForKey:@"fr"];
+            NSLog(@"%@",from);
+            NSString *depature=[[flights objectAtIndex:j]objectForKey:@"depature"];
+            NSLog(@"%@",depature);
+            
+            NSString *combined=nil;
+            NSString *line1 = [NSString stringWithFormat:@"%@%@%@", from, @"  ->  ", to];
+            NSString *line2 = [NSString stringWithFormat:@"%@%@%@",arrival,@"  ->  ",depature];
+            NSString *line3 = @"-------------";
+            if(j==0){
+                received.detail =[NSString stringWithFormat:@"%@\n%@",line1, line2];
+            }else{
+                combined =[NSString stringWithFormat:@"%@\n%@\n%@",line3, line1, line2];
+                received.detail=[NSString stringWithFormat:@"%@\n%@", received.detail, combined];
+            }
+            
+            
+//            received.detail=combined;
+        }
+        
+        
+        [self.resultItems addObject:received];
+        
+    }
 
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.resultItems = [[NSMutableArray alloc] init];
-    [self loadInitialData];
+//    [self loadInitialData];
     [self sentInfo];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -163,13 +244,15 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"tableview called");
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListPrototypeCell" forIndexPath:indexPath];
     ResultItem *resultItem = [self.resultItems objectAtIndex:indexPath.row];
     
-    NSString *combined = [NSString stringWithFormat:@"%@%@%@", resultItem.from, @"    ", resultItem.to];
-
-    cell.textLabel.text = combined;
-    cell.detailTextLabel.text=resultItem.fligtDate;
+    cell.textLabel.text = resultItem.title;
+    
+    cell.detailTextLabel.text = resultItem.detail;
+    
+    
     return cell;
 }
 

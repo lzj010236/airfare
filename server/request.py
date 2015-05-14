@@ -17,8 +17,10 @@ def GetPriceJson(filename,origin,destination,time,key):
 
     headers = { "Content-Type" : "application/json" }
 
-    data = GetData(filename,"BOS","LAX","2015-07-11")
-    # print data
+#    data = GetData(filename,"BOS","LAX","2015-07-11")
+    data = GetData(filename,origin,destination,time)
+
+# print data
     req = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(req)
     the_page = response.read()
