@@ -42,7 +42,7 @@
     NSString *combined = [NSString stringWithFormat:@"%@%@%@%@%@", result.from, @":", result.to, @":", result.fligtDate];
     NSData *data = [[NSData alloc] initWithData:[combined dataUsingEncoding:NSASCIIStringEncoding]];
     [self.outputStream write:[data bytes] maxLength:[data length]];
-    
+    [self.resultItems removeAllObjects];
 }
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
@@ -76,7 +76,7 @@
                         
                         NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
                         
-                        NSLog(output);
+//                        NSLog(output);
                         
                         
                         
@@ -94,13 +94,13 @@
                             
                             for(int j=0;j<[flights count];j++){
                                 NSString *arrival=[[flights objectAtIndex:j]objectForKey:@"arrival"];
-//                                NSLog(@"%@",arrival);
+                                NSLog(@"%@",arrival);
                                 NSString *to=[[flights objectAtIndex:j]objectForKey:@"to"];
-//                                NSLog(@"%@",to);
+                                NSLog(@"%@",to);
                                 NSString *from=[[flights objectAtIndex:j]objectForKey:@"fr"];
-//                                NSLog(@"%@",from);
+                                NSLog(@"%@",from);
                                 NSString *depature=[[flights objectAtIndex:j]objectForKey:@"depature"];
-//                                NSLog(@"%@",depature);
+                                NSLog(@"%@\n",depature);
                                 
                                 NSString *combined=nil;
                                 NSString *line1 = [NSString stringWithFormat:@"%@%@%@", from, @"  ->  ", to];

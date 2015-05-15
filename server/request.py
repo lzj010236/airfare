@@ -17,24 +17,20 @@ def GetPriceJson(filename,origin,destination,time,key):
 
     headers = { "Content-Type" : "application/json" }
 
-#    data = GetData(filename,"BOS","LAX","2015-07-11")
     data = GetData(filename,origin.strip(),destination.strip(),time.strip())
-    # print data
-    # print time
-    # print destination
-# print data
+    print data
     req = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(req)
     the_page = response.read()
-    # print the_page
     return the_page
 
 def ProcessPriceJson(json_text):
-    price_object=json.loads(json_text)['trips']['tripOption'][0:10]
+    trip_option_object=json.loads(json_text)['trips']['tripOption']
+    length=min(30,len(trip_option_object))
+    price_object=trip_option_object[0:length]
     options=[]
+    counter=0
     for option in price_object:
-        # print json.dumps(option)
-        # sale_price=option['pricing']['saleFareTotal']
         sale_total=option['saleTotal']
         segment_json=option['slice'][0]['segment']
         flights=[]
@@ -46,16 +42,10 @@ def ProcessPriceJson(json_text):
             arrival=leg['arrivalTime']
             flight={"fr":fr,"to":to,"depature":depature,"arrival":arrival}
             flights.append(flight)
-            # print fr,to,depature,arrival
-        options.append({"total":sale_total,"flights":flights})
-        # print sale_total
-        # break
-    # print options
+        options.append({"total":str(counter+1)+". "+sale_total,"flights":flights})
+        counter+=1
     json_str=json.dumps(options)
-    # print json_str
     return json_str
-    # return json.loads(str(options))
-    # print json.dumps(price_object)
 
 if __name__ == "__main__":
     google_json=GetPriceJson("request_template.json","BOS","LAX","2015-07-11","AIzaSyBdVobWYnDYRKuyUs2yVXnQM0bP97EjUTQ")

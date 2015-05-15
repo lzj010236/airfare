@@ -11,18 +11,10 @@ class IphoneChat(Protocol):
     def GenerateResults(self,a):
         print "request accepted",a
         arrs=a.replace("\n","").split(":")
-        # line=arrs[0]+" "+arrs[1]+" "+arrs[2]
         google_json=GetPriceJson("request_template.json",arrs[0],arrs[1],arrs[2],"AIzaSyBdVobWYnDYRKuyUs2yVXnQM0bP97EjUTQ")
         json_string=ProcessPriceJson(google_json)
-
-        # print line
-        # st=line+"\t"+line+"\t"+line
-        # st=st+"+"+line
-        # print st
         return json_string
     def dataReceived(self, data):
-        # a = data.split(':')
-#        print data
         send_msg=self.GenerateResults(data)
         print send_msg
         for c in self.factory.clients:
