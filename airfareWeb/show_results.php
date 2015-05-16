@@ -13,8 +13,8 @@ if ($client === false) {
     throw new UnexpectedValueException("Failed to connect: $errorMessage");
 }
 
-// $param=$_GET["org"].":".$_GET["dest"].":".$_GET["time"];
-$param="test";
+$param=$_GET["org"].":".$_GET["dest"].":".$_GET["time"];
+// $param="test";
 fwrite($client, $param);
 
 $response=stream_get_contents($client,1024000);
