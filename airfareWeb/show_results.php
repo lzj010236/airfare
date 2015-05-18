@@ -1,5 +1,6 @@
 <html>
-<body>
+<head><link rel="stylesheet" href="airfareStylesheet.css"></head>
+<body class="result">
 
 Origin: <?php echo $_GET["org"]; ?><br>
 Destination: <?php echo $_GET["dest"]; ?> <br>

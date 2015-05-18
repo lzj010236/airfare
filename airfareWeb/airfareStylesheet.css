@@ -1,0 +1,16 @@
+/*.form {display: block;
+       margin-left: 300px;
+       margin-right: auto;
+       margin-top:300px;
+       text-align: center;}
+       */
+.search {margin-top: 200px;
+		text-align: center;
+	}
+
+.result{
+	margin-top: 100px;
+	margin-left: 300px;
+	margin-right: 300px;
+	text-align: left;
+}
